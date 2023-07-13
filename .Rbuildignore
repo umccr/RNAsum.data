@@ -1,0 +1,11 @@
+^rnasum\.data\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^\.pre-commit-config\.yaml$
+^data-raw$
+^docs$
+^README\.Rmd$
+^\.github$
+^nogit$
+^conda$
+^\.bumpversion\.cfg$
