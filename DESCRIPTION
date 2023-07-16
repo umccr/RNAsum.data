@@ -1,6 +1,6 @@
 Package: RNAsum.data
 Title: Data for RNAsum
-Version: 0.0.0
+Version: 0.0.1
 Authors@R:
     c(person(given = "Peter",
            family = "Diakumis",

@@ -6,7 +6,7 @@ on:
 env:
   atoken: ${{ secrets.ANACONDA_UPLOAD_TOKEN }}
   recipe_path: deploy/conda/recipe
-  VERSION: '0.0.0' # versioned by bump2version
+  VERSION: '0.0.1' # versioned by bump2version
 
 jobs:
   condarise:
