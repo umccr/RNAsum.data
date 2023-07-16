@@ -1,0 +1,52 @@
+name: conda
+
+on:
+  workflow_dispatch
+
+env:
+  atoken: ${{ secrets.ANACONDA_UPLOAD_TOKEN }}
+  recipe_path: deploy/conda/recipe
+  VERSION: '0.0.1' # versioned by bump2version
+
+jobs:
+  condarise:
+    # When merging to main and the commit message starts with 'Bump version:'
+    if: "startsWith(github.event.head_commit.message, 'Bump version:')"
+    name: Condarise
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v3
+      - name: Miniconda setup
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          auto-update-conda: true
+          add-pip-as-python-dependency: false # conda-lock goes crazy if pip pre-installed
+          activate-environment: env1
+          miniforge-variant: Mambaforge
+          miniforge-version: "latest"
+          channels: "umccr,bioconda,conda-forge"
+      - name: 🐍 Conda pkg build and upload
+        run: |
+          conda activate
+          mamba create --name cbuildenv conda-build conda-verify anaconda-client boa
+          conda activate cbuildenv
+          conda mambabuild --R 4.2 ${recipe_path} --token ${atoken}
+      - name: 🔖 Create tag
+        uses: actions/github-script@v6
+        env:
+          LATEST_COMMIT_HASH: ${{ github.sha }}
+        with:
+          script: |
+            const the_tag_name = 'refs/tags/v' + process.env.VERSION
+            const the_sha = process.env.LATEST_COMMIT_HASH
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: the_tag_name,
+              sha: the_sha
+            })

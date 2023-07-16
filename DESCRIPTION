@@ -9,7 +9,7 @@ Authors@R:
            comment = c(ORCID = "0000-0002-7502-7545")),
       person(given = "Sehrish",
            family = "Kanwal",
-           role = c("aut", "cre"))
+           role = c("aut", "ctb"))
            )
 URL: https://github.com/umccr/RNAsum.data, https://umccr.github.io/RNAsum/
 BugReports: https://github.com/umccr/RNAsum/issues

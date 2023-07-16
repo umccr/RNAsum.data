@@ -1,0 +1,31 @@
+package:
+  name: r-rnasum.data
+  version: 0.0.1 # bump2version
+
+source:
+  path: ../../../
+
+build:
+  number: 0
+  noarch: generic
+  rpaths:
+    - lib/R/lib/
+    - lib/
+
+requirements:
+  build:
+    - git
+  host:
+    - r-base
+  run:
+    - r-base
+
+test:
+  commands:
+    - $R -e "library('RNAsum.data')"
+
+about:
+  home: https://github.com/umccr/RNAsum.data
+  license: MIT + file LICENSE
+  summary: Reference data for RNAsum
+  license_family: MIT
