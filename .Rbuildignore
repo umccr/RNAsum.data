@@ -7,5 +7,5 @@
 ^README\.Rmd$
 ^\.github$
 ^nogit$
-^conda$
+^deploy$
 ^\.bumpversion\.cfg$
