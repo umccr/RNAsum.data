@@ -1,12 +1,15 @@
-# This script is used to download a specific ensembl database version using Annotation Hub and extract tarnscript and gene IDS for a specific version
-require(AnnotationHub)
-require(ensembldb)
-require(here)
+# This script is used to download a specific ensembl database version using Annotation Hub and extract transcript and gene IDs for a specific version
+require(AnnotationHub, include.only = c("AnnotationHub", "query"))
+require(ensembldb, include.only = "lengthOf")
+require(here, include.only = "here")
+require(glue, include.only = "glue")
 
 ah <- AnnotationHub()
-# Use query(ah, "EnsDb") to find specific id for a ensembl database record
-# Downloading v105
-edb_105 <- ah[["AH98047", force=TRUE]]
+edb_version <- "105"
+query_string <- glue("Ensembl {edb_version} EnsDb for Homo sapiens")
+# Use query(ah, query_string) to find specific id for a ensembl database record
+# Downloading v105 - this takes a ton of time!
+edb_105 <- ah[["AH98047", force = TRUE]]
 
 # Find keys
 keys_ah <- AnnotationDbi::keys(edb_105, keytype = "GENEID")
@@ -23,4 +26,4 @@ gene.length <- ensembldb::lengthOf(edb_105, of="gene")
 tx_gene_id$GENELENGTH <- gene.length[tx_gene_id$GENEID]
 
 # Save gene and transcript ids to a RDS file
-saveRDS(tx_gene_id, file = here::here("inst/extdata/ensembl/tx_gene_id_105.rds"))
+saveRDS(tx_gene_id, file = here(glue("inst/extdata/ensembl/tx_gene_id_{edb_version}.rds")))
